@@ -1,7 +1,7 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import OAuth from "../components/OAuth";
 import Spinner from "../components/Spinner";
@@ -17,6 +17,8 @@ export default function SignIn() {
   });
   const { email, password } = formData;
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || '/'
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
@@ -46,7 +48,7 @@ export default function SignIn() {
         password
       );
       if (userCredential.user) {
-        navigate("/");
+        navigate(from, { replace: true })
       }
       setLoading(false);
     } catch (error) {
