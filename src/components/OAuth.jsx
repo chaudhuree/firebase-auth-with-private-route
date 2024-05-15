@@ -4,20 +4,27 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 export default function OAuth() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || '/'
   async function onGoogleClick() {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      navigate("/");
+      
+    if(user){
+      toast.success("successfully logged in")
+     navigate(from, { replace: true })
+    }
+      navigate('/')
     } catch (error) {
       toast.error("Could not authorize with Google");
+      navigate('/')
     }
   }
 
