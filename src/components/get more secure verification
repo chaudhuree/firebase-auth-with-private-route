@@ -17,7 +17,7 @@ export default function OAuth() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
-    if(user){
+    if(user?.displayName){
       toast.success("successfully logged in")
      navigate(from, { replace: true })
     }
